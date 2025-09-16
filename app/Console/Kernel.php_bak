@@ -1,0 +1,79 @@
+<!-- 
+
+namespace App\Console;
+
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+
+class Kernel extends ConsoleKernel
+{
+    protected $commands = [
+    \App\Console\Commands\SendModulReminders::class,
+];
+    
+    /**
+     * Define the application's command schedule.
+     */
+    // protected function schedule(Schedule $schedule): void
+    // {
+    //     // Contoh scheduling:
+    //     \Log::info('Kernel schedule dipanggil');
+    //      $schedule->command('notif:modul-reminders')->everyMinute();
+    // }
+
+    protected function schedule(Schedule $schedule): void
+{
+    \Log::info('👉 Schedule method terpanggil');
+
+    $schedule->command('notif:modul-reminders')
+        ->everyMinute()
+        ->timezone('Asia/Jakarta')
+        ->before(function () {
+            \Log::info('👉 Task didaftarkan');
+        });
+}
+
+
+    /**
+     * Register the commands for the application.
+     */
+    protected function commands(): void
+    {
+        $this->load(__DIR__.'/Commands');
+
+        require base_path('routes/console.php');
+    }
+
+} -->
+
+ 
+
+<?php
+
+namespace App\Console;
+
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+
+class Kernel extends ConsoleKernel
+{
+    /**
+     * Define the application's command schedule.
+     */
+    protected function schedule(Schedule $schedule): void
+    {
+        // Jalankan setiap menit untuk testing
+        // Kalau sudah oke bisa ganti jadi dailyAt('08:00') misalnya
+        $schedule->command('notif:modul-reminders')->everyMinute();
+    }
+
+    /**
+     * Register the commands for the application.
+     */
+    protected function commands(): void
+    {
+        $this->load(__DIR__.'/Commands');
+
+        require base_path('routes/console.php');
+    }
+}

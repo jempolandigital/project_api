@@ -7,7 +7,12 @@ class AnswerSession extends Model
 {
     protected $fillable = ['tenant_id', 'user_id', 'modul_id', 'started_at',
         'submitted_at',
-        'ended_at'];
+        'ended_at',
+        'selfie_path',
+  'selfie_taken_at',
+  'selfie_lat',
+  'selfie_lng',
+    ];
 
     public function user() {
         return $this->belongsTo(User::class);

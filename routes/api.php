@@ -35,7 +35,9 @@ Route::middleware([HandleCors::class])->group(function () {
         Route::get('/tenant', [TenantController::class, 'myTenant']);
         Route::get('/tenant/{tenantId}/moduls', [ModulController::class, 'getModulByTenant']);
         Route::get('/modul/{modulId}/questions', [QuestionController::class, 'getQuestionsByModul']);
-        Route::get('/user-progress', [UserProgressController::class, 'index']);
+       // Route::get('/user-progress', [UserProgressController::class, 'index']);
+        Route::get('/progress', [UserProgressController::class, 'index']);
+//        
     });
 
 });

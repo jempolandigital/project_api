@@ -3,20 +3,20 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Issue;
+use App\Models\IssueTracker;
 
 class IssuePolicy
 {
-    public function view(User $user, Issue $issue)
+    public function view(User $user, IssueTracker $issue)
     {
         // SPV hanya bisa lihat issue tenant dia
         return $user->tenantMappings()->pluck('tenant_id')->contains($issue->tenant_id);
     }
 
-    public function update(User $user, Issue $issue)
+    public function update(User $user, IssueTracker $issue)
     {
         // Hanya SPV di tenant yang sama
-        return $user->hasRole('SPV') &&
+        return $user->hasRole('spv') &&
                $user->tenantMappings()->pluck('tenant_id')->contains($issue->tenant_id);
     }
 

@@ -12,6 +12,12 @@ class Modul extends Model
     protected $fillable = [
         'name',
         'description',
+        // 'tenant_id',   // ✅ tambahin ini
+        'duration',
+        'open_at',
+        'closed_at',
+        'is_spv'
+
         // tambahkan kolom lain jika ada di tabel `moduls`
     ];
 

@@ -36,31 +36,38 @@ class AuthController extends Controller
 
 public function login(Request $request)
 {
-    $credentials = $request->validate([
-        'email'    => ['required', 'email'],
-        'password' => ['required'],
-    ]);
-
-    if (!Auth::attempt($credentials)) {
-        throw ValidationException::withMessages([
-            'email' => ['Email atau password salah.'],
+    try {
+        $credentials = $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
         ]);
+
+        if (!Auth::guard('web')->attempt($credentials)) {
+            return response()->json(['message' => 'Email atau password salah'], 401);
+        }
+
+        $user = Auth::guard('web')->user();
+        $token = $user->createToken('mobile_token')->plainTextToken;
+
+        $tenantId = $user->tenantMappings()->first()?->tenant_id;
+
+        return response()->json([
+            'user' => [
+                'id'        => $user->id,
+                'name'      => $user->name,
+                'email'     => $user->email,
+                'tenant_id' => $tenantId,
+                'roles'     => $user->getRoleNames(),
+            ],
+            'token' => $token,
+        ]);
+    } catch (\Throwable $e) {
+        \Log::error('Login mobile error: '.$e->getMessage());
+        return response()->json([
+            'message' => 'Internal server error',
+            'error' => $e->getMessage(),
+        ], 500);
     }
-
-    $user = Auth::user();
-    $token = $user->createToken('mobile_token')->plainTextToken;
-
-    // Ambil tenant_id dari relasi tenantMappings
-    $tenantId = $user->tenantMappings()->first()?->tenant_id;
-
-    return response()->json([
-        'user' => [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'tenant_id' => $tenantId, // tambahkan ini
-        ],
-        'token' => $token,
-    ]);
 }
+
 }
