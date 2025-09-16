@@ -68,20 +68,37 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/answer-session/{id}', [AnswerSessionController::class, 'show']);
 });
 
-
-
-
+//rev issue
 
 Route::middleware('auth:sanctum')->group(function () {
+    // Issue tracker
     Route::get('/issues', [IssueTrackerController::class, 'index']);
     Route::get('/issues/{id}', [IssueTrackerController::class, 'show']);
 
+    // Workflow umum (outlet & spv)
     Route::post('/issues/{id}/start', [IssueTrackerController::class, 'startWork']);
-    Route::post('/issues/{id}/close-request', [IssueTrackerController::class, 'closeRequest']);
     Route::post('/issues/{id}/proof', [IssueTrackerController::class, 'addProof']);
+    //Route::post('/issues/{id}/request-close', [IssueTrackerController::class, 'requestClose']);
+    Route::post('/issues/{id}/close-request', [IssueTrackerController::class, 'closeRequest']);
+
+    // Approval (khusus spv)
     Route::post('/issues/{id}/approve', [IssueTrackerController::class, 'approve']);
     Route::post('/issues/{id}/reject', [IssueTrackerController::class, 'reject']);
 });
+
+
+
+
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('/issues', [IssueTrackerController::class, 'index']);
+//     Route::get('/issues/{id}', [IssueTrackerController::class, 'show']);
+
+//     Route::post('/issues/{id}/start', [IssueTrackerController::class, 'startWork']);
+//     Route::post('/issues/{id}/close-request', [IssueTrackerController::class, 'closeRequest']);
+//     Route::post('/issues/{id}/proof', [IssueTrackerController::class, 'addProof']);
+//     Route::post('/issues/{id}/approve', [IssueTrackerController::class, 'approve']);
+//     Route::post('/issues/{id}/reject', [IssueTrackerController::class, 'reject']);
+// });
 
 // routes/api.php
 Route::middleware('auth:sanctum')->group(function () {
