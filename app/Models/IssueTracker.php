@@ -49,4 +49,10 @@ class IssueTracker extends Model
     {
         return $this->belongsTo(User::class, 'assigned_by');
     }
+
+    public function tenant()
+{
+    return $this->belongsTo(Tenant::class, 'tenant_id');
+}
+
 }

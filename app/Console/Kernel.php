@@ -4,25 +4,25 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\SendModulReminders;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     */
+    protected $commands = [
+        SendModulReminders::class,
+    ];
+
     protected function schedule(Schedule $schedule): void
     {
-        // Contoh scheduling:
-         $schedule->command('notif:modul-reminders')->everyMinute();
+        $schedule->command('notif:modul-reminders')->everyMinute();
+        \Log::info('Schedule dipanggil dari Kernel.php dengan SendModulReminders');
+
+        $schedule->command('test:schedule')->everyMinute();
     }
 
-    /**
-     * Register the commands for the application.
-     */
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
     }
 }
